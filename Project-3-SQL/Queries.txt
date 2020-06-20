@@ -1,0 +1,46 @@
+/*Query 1 - query used for first insight*/
+SELECT Customer.Country As Country, COUNT(*) AS Number_of_Customers
+FROM Customer
+JOIN Invoice
+	ON Customer.CustomerId = Invoice.CustomerId
+GROUP BY Country
+ORDER BY Number_of_Customers DESC
+LIMIT 7;
+
+
+/*Query 2 - query used for second insight*/
+SELECT Artist.ArtistId As ArtistId, Artist.Name As Name, COUNT(*) AS Songs
+FROM Artist
+JOIN Album
+	ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+	ON Album.AlbumId = Track.AlbumId
+JOIN Genre
+	ON Track.GenreId = Genre.GenreId
+WHERE Genre.Name = 'Rock'
+GROUP BY Artist.Name
+ORDER BY Songs DESC
+LIMIT 10;
+
+
+/*Query 3 - query used for third insight*/
+SELECT COUNT( DISTINCT Genre.Name) AS Number_of_Genres
+FROM Artist
+JOIN Album
+  ON Artist.ArtistId = Album.ArtistId
+JOIN Track
+  ON Album.AlbumId = Track.AlbumId
+JOIN Genre
+  ON Track.GenreId = Genre.GenreId
+GROUP BY Artist.ArtistId
+ORDER BY Number_of_Genres DESC;
+
+
+/*Query 4 - query used for fouth insight*/
+SELECT Genre.Name AS Genre, COUNT(*) AS Number_of_Love_Songs
+FROM Track
+JOIN Genre
+  On Track.GenreId = Genre.GenreId
+WHERE Track.Name LIKE '%Love%' OR Track.Name LIKE '%love' OR Track.Name LIKE '%LOVE%'
+GROUP BY Genre.Name
+ORDER BY Number_of_Love_Songs DESC;
